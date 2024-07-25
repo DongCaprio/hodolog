@@ -2,6 +2,7 @@ package com.hodolog.api.service;
 
 import com.hodolog.api.domain.Post;
 import com.hodolog.api.domain.PostEditor;
+import com.hodolog.api.exception.PostNotFound;
 import com.hodolog.api.repository.PostRepository;
 import com.hodolog.api.repository.PostSearch;
 import com.hodolog.api.request.PostCreate;
@@ -36,7 +37,7 @@ public class PostService {
 
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다"));
+                .orElseThrow(PostNotFound::new);
 
         return PostResponse.builder()
                 .id(post.getId())
@@ -56,13 +57,13 @@ public class PostService {
     @Transactional
     public void edit(Long id, PostEdit postEdit){
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
         post.edit(postEdit.getTitle(), postEdit.getContent());
     }
 
     public void delete(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다"));
+                .orElseThrow(PostNotFound::new);
         postRepository.delete(post);
 
     }
