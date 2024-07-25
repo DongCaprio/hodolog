@@ -57,12 +57,13 @@ public class PostService {
     public void edit(Long id, PostEdit postEdit){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+        post.edit(postEdit.getTitle(), postEdit.getContent());
+    }
 
-        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
-        PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
-                .content(postEdit.getContent())
-                .build();
+    public void delete(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다"));
+        postRepository.delete(post);
 
-        post.edit(postEditor);
     }
 }
