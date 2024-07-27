@@ -1,5 +1,6 @@
 package com.hodolog.api.controller;
 
+import com.hodolog.api.exception.InvalidRequest;
 import com.hodolog.api.repository.PostSearch;
 import com.hodolog.api.request.PostCreate;
 import com.hodolog.api.request.PostEdit;
@@ -49,6 +50,7 @@ public class PostController {
             error.put(fieldName, errorMsg);
             return error;
         }*/
+        request.validate();
         postService.write(request);
     }
 
