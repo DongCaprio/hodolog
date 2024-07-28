@@ -68,24 +68,24 @@ class PostControllerTest {
     @Test
     @DisplayName("/posts 요청시 title값은 필수다.")
     void test2() throws Exception {
-
-        PostCreate requset = PostCreate.builder()
-                .content("내용입니다")
+        // given
+        PostCreate request = PostCreate.builder()
+                .content("내용입니다.")
                 .build();
 
-        String json = objectMapper.writeValueAsString(requset);
+        String json = objectMapper.writeValueAsString(request);
 
         // expected
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
-                        .content(json)
-                )
+                        .content(json))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
                 .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요"))
                 .andDo(print());
     }
+
 
     @Test
     @DisplayName("/posts 요청시 DB에 값이 저장된다.")
