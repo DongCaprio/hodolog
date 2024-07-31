@@ -1,7 +1,9 @@
 package com.hodolog.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hodolog.api.domain.Post;
 import com.hodolog.api.repository.PostRepository;
+import com.hodolog.api.request.PostCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,11 +37,14 @@ public class PostControllerDocTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired //spring에서 제공해준다.
+    private ObjectMapper objectMapper;
+
     @Autowired
     private PostRepository postRepository;
 
     @Test
-    @DisplayName("글 단건 조회 테스트")
+    @DisplayName("글 단건 조회")
     void test1() throws Exception {
 
         Post post = Post.builder()
@@ -55,7 +60,40 @@ public class PostControllerDocTest {
                 .andDo(document("index",
                         RequestDocumentation.pathParameters(
                                 RequestDocumentation.parameterWithName("postId").description("게시글 ID")
+                        ),
+                        PayloadDocumentation.responseFields(
+                                PayloadDocumentation.fieldWithPath("id").description("게시글 ID"),
+                                PayloadDocumentation.fieldWithPath("title").description("제목"),
+                                PayloadDocumentation.fieldWithPath("content").description("내용")
                         )
                         ));
     }
+
+
+    @Test
+    @DisplayName("글 등록")
+    void test2() throws Exception {
+
+        PostCreate requset = PostCreate.builder()
+                .title("호돌맨")
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(requset);
+
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/posts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andDo(document("index",
+                      PayloadDocumentation.requestFields(
+                              PayloadDocumentation.fieldWithPath("title").description("제목"),
+                              PayloadDocumentation.fieldWithPath("content").description("제목")
+                      )
+                ));
+    }
+
+
 }
