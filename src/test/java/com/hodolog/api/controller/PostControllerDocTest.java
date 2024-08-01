@@ -37,6 +37,7 @@ public class PostControllerDocTest {
 
     @Autowired
     private MockMvc mockMvc;
+    
 
     @Autowired //spring에서 제공해준다.
     private ObjectMapper objectMapper;
