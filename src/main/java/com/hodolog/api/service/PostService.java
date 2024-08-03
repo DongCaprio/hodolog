@@ -33,8 +33,6 @@ public class PostService {
                 .content(postCreate.getContent())
                 .build();
 
-        System.out.println("hello world2");
-
         postRepository.save(post);
     }
 
