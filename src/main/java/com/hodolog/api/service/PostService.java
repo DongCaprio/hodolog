@@ -33,7 +33,7 @@ public class PostService {
                 .content(postCreate.getContent())
                 .build();
 
-        System.out.println("깃 허브 공부");
+        System.out.println("hello world2");
 
         postRepository.save(post);
     }
