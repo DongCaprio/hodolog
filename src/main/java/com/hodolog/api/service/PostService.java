@@ -32,6 +32,9 @@ public class PostService {
                 .title(postCreate.getTitle())
                 .content(postCreate.getContent())
                 .build();
+
+        System.out.println("깃 허브 공부");
+
         postRepository.save(post);
     }
 
