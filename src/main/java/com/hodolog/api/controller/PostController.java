@@ -20,6 +20,16 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/test")
+    public String test() {
+        return "hello";
+    }
+
+    @GetMapping("/foo")
+    public String foo() {
+        return "foo";
+    }
+
     // SSR -> jsp, thymeleaf, mustache, freemarker
     // SPA ->
     //  vue -> vue+SSR = nuxt.js
