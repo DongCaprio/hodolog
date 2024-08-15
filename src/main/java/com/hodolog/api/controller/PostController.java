@@ -1,5 +1,6 @@
 package com.hodolog.api.controller;
 
+import com.hodolog.api.config.data.UserSession;
 import com.hodolog.api.exception.InvalidRequest;
 import com.hodolog.api.repository.PostSearch;
 import com.hodolog.api.request.PostCreate;
@@ -20,13 +21,10 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "hello";
-    }
 
     @GetMapping("/foo")
-    public String foo() {
+    public String foo(UserSession userSession) {
+        log.info(">>>{}", userSession.name);
         return "foo";
     }
 
