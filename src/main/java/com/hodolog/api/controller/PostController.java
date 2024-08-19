@@ -25,7 +25,7 @@ public class PostController {
     @GetMapping("/foo")
     public String foo(UserSession userSession) {
         log.info(">>>{}", userSession.name);
-        return "foo";
+        return userSession.name;
     }
 
     // SSR -> jsp, thymeleaf, mustache, freemarker
